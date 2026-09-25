@@ -377,6 +377,23 @@ function checkPassword() {
   }
 }
 
+function checkAge() {
+  const age = document.getElementById("ageAnswer").value;
+  const error = document.getElementById("ageError");
+
+  if (age === "") {
+    error.textContent = "Pehle age to batao";
+    return;
+  }
+
+  error.textContent = "";
+
+  if (age === "100") {
+    showScreen("gift");
+  } else {
+    error.textContent = "Jhooth bol rahe ho kya? ";
+  }
+}
 
 function openGift() {
   showScreen("birthday");
