@@ -24,7 +24,7 @@ body {
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
-  overflow-y: auto
+  overflow-y: auto;
   color: #402840;
 }
 
@@ -181,6 +181,83 @@ audio {
   width: 100%;
   margin: 20px 0;
 }
+
+
+/* LUCK WHEEL */
+
+.wheel-box {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 25px auto;
+}
+
+.wheel {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 8px solid white;
+
+  background: conic-gradient(
+    #ff9fcf 0deg 120deg,
+    #c9a7ff 120deg 240deg,
+    #9fddff 240deg 360deg
+  );
+
+  position: relative;
+
+  transition: transform 3s cubic-bezier(.17,.67,.12,.99);
+
+  box-shadow: 0 8px 25px rgba(70,30,80,0.25);
+}
+
+.wheel-number {
+  position: absolute;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.n0 {
+  top: 25px;
+  left: 78px;
+}
+
+.n1 {
+  bottom: 25px;
+  left: 30px;
+}
+
+.n2 {
+  bottom: 25px;
+  right: 30px;
+}
+
+.pointer {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-size: 32px;
+  color: #925bb0;
+}
+
+#spinButton {
+  margin-top: 5px;
+}
+
+#wheelResult {
+  font-weight: bold;
+  min-height: 28px;
+}
+
+#audioResult {
+  margin-top: 10px;
+}
+
 </style>
 </head>
 
@@ -269,8 +346,7 @@ audio {
     <h1>HAPPY JANAMDIN</h1>
 
     <audio controls>
-  <source src="birthday.mp3" type="audio/mpeg">
-  
+      <source src="birthday.mp3" type="audio/mpeg">
     </audio>
 
     <p>
@@ -307,29 +383,58 @@ audio {
 </div>
 
 
-<!-- VOICE SCREEN -->
+<!-- LUCK WHEEL SCREEN -->
 <div class="screen" id="voice">
   <div class="card">
 
-    <div class="emoji">🎙️</div>
+    <div class="emoji">🎡👀</div>
 
-    <h2>Accha ab sun... 👀</h2>
+    <h2>Ek aur btt hnn 👀</h2>
 
     <p>
+      Ab dekhte hain tumhari kismat 😌<br>
+      Wheel ghumao... jo number aaya,<br>
+      wahi audio milega 😂
+    </p>
 
-    <audio id="voiceAudio" controls>
-      <source src="voice-note.mp3" type="audio/mpeg">
-    </audio>
+    <div class="wheel-box">
 
-    <button onclick="playVoice()">
-      ▶️ Play audio
+      <div class="pointer">▼</div>
+
+      <div class="wheel" id="luckWheel">
+
+        <div class="wheel-number n0">0</div>
+
+        <div class="wheel-number n1">1</div>
+
+        <div class="wheel-number n2">2</div>
+
+      </div>
+
+    </div>
+
+    <button id="spinButton" onclick="spinWheel()">
+      🎡 Ghumao wheel
     </button>
 
-    <br><br>
+    <p id="wheelResult"></p>
 
-    <button onclick="showScreen('final')">
-      hogya 😂 →
-    </button>
+    <div id="audioResult" style="display:none;">
+
+      <p id="audioText"></p>
+
+      <audio id="luckAudio" controls>
+        <source id="luckAudioSource" src="" type="audio/mpeg">
+        Your browser does not support audio.
+      </audio>
+
+      <br><br>
+
+      <button onclick="showScreen('final')">
+        hogya 😂 →
+      </button>
+
+    </div>
 
   </div>
 </div>
@@ -382,6 +487,7 @@ function checkPassword() {
   }
 }
 
+
 function checkAge() {
   const age = document.getElementById("ageAnswer").value;
   const error = document.getElementById("ageError");
@@ -400,6 +506,7 @@ function checkAge() {
   }
 }
 
+
 function openGift() {
   showScreen("birthday");
   makeConfetti();
@@ -413,12 +520,111 @@ function celebrate() {
 }
 
 
-function playVoice() {
-  const audio = document.getElementById("voiceAudio");
+/* LUCK WHEEL */
 
-  audio.play().catch(function() {
-    alert("Play button🎙️");
-  });
+let wheelSpinning = false;
+
+function spinWheel() {
+
+  if (wheelSpinning) {
+    return;
+  }
+
+  wheelSpinning = true;
+
+  const wheel = document.getElementById("luckWheel");
+  const resultText = document.getElementById("wheelResult");
+  const audioResult = document.getElementById("audioResult");
+  const audio = document.getElementById("luckAudio");
+  const source = document.getElementById("luckAudioSource");
+  const audioText = document.getElementById("audioText");
+  const spinButton = document.getElementById("spinButton");
+
+  audioResult.style.display = "none";
+
+  resultText.textContent = "Kismat decide ho rahi hai... 👀";
+
+  spinButton.disabled = true;
+
+  const number = Math.floor(Math.random() * 3);
+
+  const extraSpins = 5 * 360;
+
+  let finalAngle;
+
+  if (number === 0) {
+    finalAngle = 210;
+  }
+
+  else if (number === 1) {
+    finalAngle = 90;
+  }
+
+  else {
+    finalAngle = 330;
+  }
+
+  wheel.style.transform =
+    "rotate(" + (extraSpins + finalAngle) + "deg)";
+
+
+  setTimeout(function() {
+
+    resultText.textContent =
+      "🎉 Tumhara number: " + number;
+
+
+    if (number === 0) {
+
+      source.src = "birthday-audio-1.mp3";
+
+      audioText.textContent =
+        "0 aaya 😂 Kismat ne Audio 1 choose kiya 🎧";
+
+    }
+
+
+    else if (number === 1) {
+
+      source.src = "birthday-audio-2.mp3";
+
+      audioText.textContent =
+        "1 aaya 😂 Kismat ne Audio 2 choose kiya 🎧";
+
+    }
+
+
+    else {
+
+      const randomAudio =
+        Math.random() < 0.5 ? 1 : 2;
+
+
+      if (randomAudio === 1) {
+
+        source.src = "voice.mp3";
+
+      } else {
+
+        source.src = "birthday-2.mp3";
+
+      }
+
+      audioText.textContent =
+        "2 aaya... ab kismat dobara decide karegi 😂🎧";
+
+    }
+
+
+    audio.load();
+
+    audioResult.style.display = "block";
+
+    wheelSpinning = false;
+
+    spinButton.disabled = false;
+
+  }, 3000);
 }
 
 
@@ -464,7 +670,8 @@ function makeHearts() {
 
 
 function replaySurprise() {
-  const audio = document.getElementById("voiceAudio");
+
+  const audio = document.getElementById("luckAudio");
 
   audio.pause();
   audio.currentTime = 0;
@@ -472,10 +679,17 @@ function replaySurprise() {
   document.getElementById("password").value = "";
   document.getElementById("error").textContent = "";
 
+  document.getElementById("ageAnswer").value = "";
+  document.getElementById("ageError").textContent = "";
+
+  document.getElementById("wheelResult").textContent = "";
+
+  document.getElementById("audioResult").style.display = "none";
+
   showScreen("opening");
 }
 
 </script>
 
 </body>
-  </html>
+</html>
