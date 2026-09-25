@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎂</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffd6e7, #e5d5ff, #cdefff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: #402840;
+}
+
+.screen {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.card {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px 22px;
+  text-align: center;
+  background: rgba(255,255,255,0.94);
+  border-radius: 28px;
+  box-shadow: 0 20px 60px rgba(70,30,80,0.20);
+}
+
+h1 {
+  font-size: 30px;
+  margin: 12px 0;
+}
+
+h2 {
+  font-size: 28px;
+  margin: 12px 0;
+}
+
+p {
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.emoji {
+  font-size: 65px;
+}
+
+.small {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin: 12px 0;
+  border: 2px solid #e2c5e5;
+  border-radius: 15px;
+  outline: none;
+  font-size: 18px;
+  text-align: center;
+}
+
+button {
+  padding: 14px 25px;
+  border: none;
+  border-radius: 50px;
+  background: #925bb0;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.error {
+  height: 25px;
+  color: #d94d68;
+  font-size: 14px;
+}
+
+.gift {
+  font-size: 100px;
+  cursor: pointer;
+  animation: bounce 1.2s infinite;
+  display: inline-block;
+}
+
+.wish {
+  font-size: 100px;
+  cursor: pointer;
+  animation: bounce 1.2s infinite;
+  display: inline-block;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.confetti {
+  position: fixed;
+  top: -20px;
+  font-size: 20px;
+  pointer-events: none;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.heart {
+  position: fixed;
+  bottom: -30px;
+  font-size: 24px;
+  pointer-events: none;
+  animation: floatUp 4s linear forwards;
+}
+
+.sitara {
+  position: fixed;
+  bottom: -30px;
+  font-size: 24px;
+  pointer-events: none;
+  animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.replay {
+  margin-top: 15px;
+  background: #e889ad;
+}
+
+audio {
+  width: 100%;
+  margin: 20px 0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- OPENING -->
+<div class="screen active" id="opening">
+  <div class="card">
+    <div class="emoji">👓</div>
+
+    <h1>Chasma ki jarurat h tujhe</h1>
+
+    <p class="small">
+      Password daal, tabhi aage badhega ..gawar
+    </p>
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="off"
+    >
+
+    <div class="error" id="error"></div>
+
+    <button onclick="checkPassword()">
+      Enter ✨
+    </button>
+  </div>
+</div>
+
+
+<!-- SECOND SCREEN -->
+<div class="screen" id="second">
+  <div class="card">
+    <div class="emoji">👀</div>
+
+    <h2>Accha...</h2>
+
+    <p>
+      KHUL GYA
+    </p>
+
+    <button onclick="showScreen('gift')">
+      Aage dekho →
+    </button>
+  </div>
+</div>
+
+
+<!-- GIFT SCREEN -->
+<div class="screen" id="gift">
+  <div class="card">
+
+    <h2>make a wish..jaldii🕯️</h2>
+
+    <p>
+      Tap kar ke khol
+    </p>
+
+    <div class="wish" onclick="openGift()">
+      🕯️
+    </div>
+
+  </div>
+</div>
+
+
+<!-- BIRTHDAY SCREEN -->
+<div class="screen" id="birthday">
+  <div class="card">
+
+    <div class="emoji">🎂</div>
+
+    <h1>HAPPY JANAMDIN</h1>
+
+    <p>
+      hi..mr10/10
+      <br><br>
+      Kaise ho..12 se 21 ka safar kaisa tha..
+      Kyunki usse phele dimag nhi tha..wo alg btt h abhi bhi nhi hai....
+      kya kr rha h... overthinking...waah...same...aaj whatsapp kholne
+      ka irada nhi tha na...koi na mera bhi sme reason tha...to kitna body bna...
+      tiinka uth jata h na??
+      Yrr kishan to badhiya dikhta h...dressing sense sb badhiya....
+      wo milta h humko kabhi kabhi...
+      Or kya wish manga...ya bss tap kar diya...chor ja padh..
+      all the best...or hn important chiz to bhul he gye...
+      Happy Birthday captain....
+      tooo mr.chotee..or kya bolu..sada khush raho... 
+      ayushman bhawaa balak..ek packet momos bhejwa dena bss....
+      or or kitna jldi bara hogya h...yhi sb sunne ko milega Aaj...
+      [ITNA PADHNE KA PATIENCE H?] Bss ab nhi h kuch....jaaaaaa....
+      happy wala birthday 🙂
+      <br><br>
+      Chasma pehenna mat bhoolna. 👓😂
+    </p>
+
+    <button onclick="celebrate()">
+      Ek aur btt hnn👀
+    </button>
+
+  </div>
+</div>
+
+
+<!-- VOICE SCREEN -->
+<div class="screen" id="voice">
+  <div class="card">
+
+    <div class="emoji">🎙️</div>
+
+    <h2>Accha ab ye sun... 👀</h2>
+
+    <p>
+
+    <audio id="voiceAudio" controls>
+      <source src="voice.mp3" type="audio/mpeg">
+    </audio>
+
+    <button onclick="playVoice()">
+      ▶️ Play audio
+    </button>
+
+    <br><br>
+
+    <button onclick="showScreen('final')">
+      Ab jaa 😂 →
+    </button>
+
+  </div>
+</div>
+
+
+<!-- FINAL SCREEN -->
+<div class="screen" id="final">
+  <div class="card">
+
+    <div class="emoji">😂😂</div>
+
+    <h2>Hattt
+      Bas itna hi...</h2>
+
+    <p>
+      or kya chaiye 
+      <br><br>
+      cake bhejwa dena
+    </p>
+
+    <button class="replay" onclick="replaySurprise()">
+      Replay 🔄
+    </button>
+
+  </div>
+</div>
+
+
+<script>
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(function(screen) {
+    screen.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+}
+
+
+function checkPassword() {
+  const password = document.getElementById("password").value;
+  const error = document.getElementById("error");
+
+  if (password === "10/10") {
+    error.textContent = "";
+    showScreen("second");
+  } else {
+    error.textContent = "😭 kya jawan Banega re tu";
+  }
+}
+
+
+function openGift() {
+  showScreen("birthday");
+  makeConfetti();
+}
+
+
+function celebrate() {
+  showScreen("voice");
+  makeConfetti();
+  makeHearts();
+}
+
+
+function playVoice() {
+  const audio = document.getElementById("voiceAudio");
+
+  audio.play().catch(function() {
+    alert("Play button🎙️");
+  });
+}
+
+
+function makeConfetti() {
+  const symbols = ["🤡", "💀", "🎊", "😑", "🤔", "🤫"];
+
+  for (let i = 0; i < 40; i++) {
+    const item = document.createElement("div");
+
+    item.className = "confetti";
+    item.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    item.style.left = Math.random() * 100 + "vw";
+    item.style.animationDelay = Math.random() * 2 + "s";
+
+    document.body.appendChild(item);
+
+    setTimeout(function() {
+      item.remove();
+    }, 5000);
+  }
+}
+
+
+function makeHearts() {
+  for (let i = 0; i < 20; i++) {
+    const heart = document.createElement("div");
+
+    heart.className = "sitara";
+    heart.textContent = "🌟";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDelay = Math.random() * 2 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(function() {
+      heart.remove();
+    }, 5000);
+  }
+}
+
+
+function replaySurprise() {
+  const audio = document.getElementById("voiceAudio");
+
+  audio.pause();
+  audio.currentTime = 0;
+
+  document.getElementById("password").value = "";
+  document.getElementById("error").textContent = "";
+
+  showScreen("opening");
+}
+
+</script>
+
+</body>
+  </html>
