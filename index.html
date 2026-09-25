@@ -519,6 +519,7 @@ function celebrate() {
 /* LUCK WHEEL */
 
 let wheelSpinning = false;
+let currentRotation = 0;
 
 function spinWheel() {
 
@@ -536,35 +537,63 @@ function spinWheel() {
   const audioText = document.getElementById("audioText");
   const spinButton = document.getElementById("spinButton");
 
+  /* Stop previous audio */
+  audio.pause();
+  audio.currentTime = 0;
+  audio.onended = null;
+
   audioResult.style.display = "none";
-  audio.style.display = "block";
 
   resultText.textContent = "waittt 👀";
 
   spinButton.disabled = true;
 
-  // RANDOM: 0, 1 or 2
+  /* RANDOM 0, 1 OR 2 */
   const number = Math.floor(Math.random() * 3);
 
-  const extraSpins = 7 * 360;
+  /*
+    0 = BOTH
+    1 = VOICE
+    2 = BIRTHDAY-2
+  */
 
-  let finalAngle;
+  let targetAngle;
 
   if (number === 0) {
-    finalAngle = 210;
+    targetAngle = 210;
   }
 
   else if (number === 1) {
-    finalAngle = 90;
+    targetAngle = 90;
   }
 
   else {
-    finalAngle = 330;
+    targetAngle = 330;
   }
 
-  wheel.style.transform =
-    "rotate(" + (extraSpins + finalAngle) + "deg)";
+  /*
+    Always add full spins.
+    This makes every spin smooth,
+    even if the same number comes again.
+  */
 
+  const extraSpins = 7 * 360;
+
+  const currentMod = currentRotation % 360;
+
+  let difference = targetAngle - currentMod;
+
+  if (difference < 0) {
+    difference += 360;
+  }
+
+  currentRotation += extraSpins + difference;
+
+  wheel.style.transform =
+    "rotate(" + currentRotation + "deg)";
+
+
+  /* WAIT UNTIL WHEEL FINISHES */
 
   setTimeout(function() {
 
@@ -572,11 +601,13 @@ function spinWheel() {
       "🎉 Tumhara number: " + number;
 
 
-    /* 0 = BOTH AUDIOS */
+    /* =========================
+       0 = BOTH AUDIO
+       ========================= */
 
     if (number === 0) {
 
-      audioText.innerHTML =
+      audioText.textContent =
         "0 BOTH 🎧🎧";
 
       source.src = "voice-note.mp3";
@@ -585,20 +616,35 @@ function spinWheel() {
 
       audioResult.style.display = "block";
 
-      // Second audio will play after first one finishes
+
+      /*
+        After voice-note finishes,
+        automatically play birthday-2
+      */
+
       audio.onended = function() {
 
-        source.src = "birthday-2 .mp3";
+        source.src = "birthday-2.mp3";
 
         audio.load();
-        audio.play();
+
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch(function() {
+            audioText.textContent =
+              "0 BOTH 🎧🎧 — Play dabao for second audio 👀";
+          });
+        }
 
       };
 
     }
 
 
-    /* 1 = VOICE NOTE */
+    /* =========================
+       1 = VOICE NOTE
+       ========================= */
 
     else if (number === 1) {
 
@@ -616,7 +662,9 @@ function spinWheel() {
     }
 
 
-    /* 2 = BIRTHDAY 2 */
+    /* =========================
+       2 = BIRTHDAY-2
+       ========================= */
 
     else {
 
@@ -638,7 +686,7 @@ function spinWheel() {
 
     spinButton.disabled = false;
 
-  }, 3000);
+  }, 4500);
 }
 
 
