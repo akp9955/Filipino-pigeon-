@@ -207,7 +207,7 @@ audio {
 
   position: relative;
 
-  transition: transform 3s cubic-bezier(.17,.67,.12,.99);
+  transition: transform 4.5s cubic-bezier(0.12, 0.75, 0.15, 1);
 
   box-shadow: 0 8px 25px rgba(70,30,80,0.25);
 }
@@ -376,7 +376,7 @@ audio {
     </p>
 
     <button onclick="celebrate()">
-      Ek aur btt hnn👀
+      aage chaliyee..
     </button>
 
   </div>
@@ -389,7 +389,7 @@ audio {
 
     <div class="emoji">🎡👀</div>
 
-    <h2>Ek aur btt hnn 👀</h2>
+    <h2> 👀</h2>
 
     <p>
       dekhta ja meri kalakari
@@ -428,7 +428,7 @@ audio {
       <br><br>
 
       <button onclick="showScreen('final')">
-        hogya 😂 →
+        hogya chl ab →
       </button>
 
     </div>
@@ -449,7 +449,6 @@ audio {
     <p>
       bss itna he h
       or kya chaiye 
-      <br><br>
       cake bhejwa dena
     </p>
 
@@ -538,14 +537,16 @@ function spinWheel() {
   const spinButton = document.getElementById("spinButton");
 
   audioResult.style.display = "none";
+  audio.style.display = "block";
 
-  resultText.textContent = "👀";
+  resultText.textContent = "waittt 👀";
 
   spinButton.disabled = true;
 
+  // RANDOM: 0, 1 or 2
   const number = Math.floor(Math.random() * 3);
 
-  const extraSpins = 5 * 360;
+  const extraSpins = 7 * 360;
 
   let finalAngle;
 
@@ -571,51 +572,67 @@ function spinWheel() {
       "🎉 Tumhara number: " + number;
 
 
+    /* 0 = BOTH AUDIOS */
+
     if (number === 0) {
+
+      audioText.innerHTML =
+        "0 BOTH 🎧🎧";
 
       source.src = "voice-note.mp3";
 
-      audioText.textContent =
-        "0 aaya Audio 1 🎧";
+      audio.load();
+
+      audioResult.style.display = "block";
+
+      // Second audio will play after first one finishes
+      audio.onended = function() {
+
+        source.src = "birthday-2 .mp3";
+
+        audio.load();
+        audio.play();
+
+      };
 
     }
 
+
+    /* 1 = VOICE NOTE */
 
     else if (number === 1) {
 
-      source.src = "birthday-2.mp3";
-
       audioText.textContent =
-        "1 aaya Audio 2  🎧";
+        "1 mil gaya 🎙️";
+
+      source.src = "voice-note.mp3";
+
+      audio.onended = null;
+
+      audio.load();
+
+      audioResult.style.display = "block";
 
     }
 
+
+    /* 2 = BIRTHDAY 2 */
 
     else {
 
-      const randomAudio =
-        Math.random() < 0.5 ? 1 : 2;
-
-
-      if (randomAudio === 1) {
-
-        source.src = "voice-note.mp3";
-
-      } else {
-
-        source.src = "birthday-2.mp3";
-
-      }
-
       audioText.textContent =
-        "2 aaya dobara 🎧";
+        "2 mil gaya 🎂";
+
+      source.src = "birthday-2.mp3";
+
+      audio.onended = null;
+
+      audio.load();
+
+      audioResult.style.display = "block";
 
     }
 
-
-    audio.load();
-
-    audioResult.style.display = "block";
 
     wheelSpinning = false;
 
