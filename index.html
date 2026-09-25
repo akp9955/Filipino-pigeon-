@@ -23,7 +23,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto
   color: #402840;
 }
 
@@ -193,7 +194,7 @@ audio {
     <h1>Chasma ki jarurat h tujhe</h1>
 
     <p class="small">
-      Password daal, tabhi aage badhega ..gawar
+      gift me chasma dedu??
     </p>
 
     <input
@@ -217,14 +218,14 @@ audio {
   <div class="card">
     <div class="emoji">👀</div>
 
-    <h2>Accha...</h2>
+    <h2>Accha</h2>
 
     <p>
-      KHUL GYA
+      kitna saaal ka hogya
     </p>
 
     <button onclick="showScreen('gift')">
-      Aage dekho →
+      21?? →
     </button>
   </div>
 </div>
@@ -237,7 +238,7 @@ audio {
     <h2>make a wish..jaldii🕯️</h2>
 
     <p>
-      Tap kar ke khol
+      Tap kar(cringe hogya na)
     </p>
 
     <div class="wish" onclick="openGift()">
@@ -252,7 +253,7 @@ audio {
 <div class="screen" id="birthday">
   <div class="card">
 
-    <div class="emoji">🎂</div>
+    <div class="emoji">💀</div>
 
     <h1>HAPPY JANAMDIN</h1>
 
@@ -292,7 +293,7 @@ audio {
 
     <div class="emoji">🎙️</div>
 
-    <h2>Accha ab ye sun... 👀</h2>
+    <h2>Accha ab sun... 👀</h2>
 
     <p>
 
@@ -307,7 +308,7 @@ audio {
     <br><br>
 
     <button onclick="showScreen('final')">
-      Ab jaa 😂 →
+      hogya 😂 →
     </button>
 
   </div>
@@ -318,12 +319,13 @@ audio {
 <div class="screen" id="final">
   <div class="card">
 
-    <div class="emoji">😂😂</div>
+    <div class="emoji">😒</div>
 
     <h2>Hattt
-      Bas itna hi...</h2>
+      </h2>
 
     <p>
+      bss itna he h
       or kya chaiye 
       <br><br>
       cake bhejwa dena
@@ -356,7 +358,7 @@ function checkPassword() {
     error.textContent = "";
     showScreen("second");
   } else {
-    error.textContent = "😭 kya jawan Banega re tu";
+    error.textContent = "kya jawan Banega re tu";
   }
 }
 
