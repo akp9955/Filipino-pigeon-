@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Surprise 🎂</title>
 
+<!-- GOOGLE ANALYTICS -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E8CEPQ46EK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'G-E8CEPQ46EK');
+</script>
+
 <style>
 * {
   box-sizing: border-box;
@@ -346,7 +360,7 @@ audio {
 
     <h1>HAPPY JANAMDIN</h1>
 
-    <audio controls>
+    <audio id="birthdayAudio" controls>
       <source src="birthday.mp3" type="audio/mpeg">
     </audio>
 
@@ -428,7 +442,7 @@ audio {
 
       <br><br>
 
-      <button onclick="showScreen('final')">
+      <button onclick="showFinal()">
         hogya chl ab →
       </button>
 
@@ -464,64 +478,161 @@ audio {
 
 <script>
 
+/* =========================
+   GOOGLE ANALYTICS HELPER
+   ========================= */
+
+function trackEvent(eventName, parameters) {
+  if (typeof gtag === "function") {
+    gtag("event", eventName, parameters || {});
+  }
+}
+
+
+/* =========================
+   SCREEN TRACKING
+   ========================= */
+
 function showScreen(id) {
+
   document.querySelectorAll(".screen").forEach(function(screen) {
     screen.classList.remove("active");
   });
 
   document.getElementById(id).classList.add("active");
+
+  trackEvent("screen_view_custom", {
+    screen_name: id
+  });
 }
 
 
+/* =========================
+   PASSWORD
+   ========================= */
+
 function checkPassword() {
-  const password = document.getElementById("password").value;
-  const error = document.getElementById("error");
+
+  const password =
+    document.getElementById("password").value;
+
+  const error =
+    document.getElementById("error");
 
   if (password === "10/10") {
+
     error.textContent = "";
+
+    trackEvent("password_success");
+
     showScreen("second");
+
   } else {
-    error.textContent = "kya jawan Banega re tu";
+
+    error.textContent =
+      "kya jawan Banega re tu";
+
   }
 }
 
 
+/* =========================
+   AGE
+   ========================= */
+
 function checkAge() {
-  const age = document.getElementById("ageAnswer").value;
-  const error = document.getElementById("ageError");
+
+  const age =
+    document.getElementById("ageAnswer").value;
+
+  const error =
+    document.getElementById("ageError");
 
   if (age === "") {
-    error.textContent = "Pehle age to batao";
+
+    error.textContent =
+      "Pehle age to batao";
+
     return;
   }
 
   error.textContent = "";
 
   if (age === "100") {
+
+    trackEvent("age_success");
+
     showScreen("gift");
+
   } else {
-    error.textContent = "Jhooth bol rahe ho kya?";
+
+    error.textContent =
+      "Jhooth bol rahe ho kya?";
+
   }
 }
 
 
+/* =========================
+   GIFT
+   ========================= */
+
 function openGift() {
+
+  trackEvent("gift_opened");
+
   showScreen("birthday");
+
   makeConfetti();
+
 }
 
+
+/* =========================
+   BIRTHDAY AUDIO
+   ========================= */
+
+const birthdayAudio =
+  document.getElementById("birthdayAudio");
+
+birthdayAudio.addEventListener("play", function() {
+
+  trackEvent("birthday_audio_play");
+
+});
+
+birthdayAudio.addEventListener("ended", function() {
+
+  trackEvent("birthday_audio_completed");
+
+});
+
+
+/* =========================
+   CONTINUE
+   ========================= */
 
 function celebrate() {
+
+  trackEvent("birthday_continue");
+
   showScreen("voice");
+
   makeConfetti();
+
   makeHearts();
+
 }
 
 
-/* LUCK WHEEL */
+/* =========================
+   LUCK WHEEL
+   ========================= */
 
 let wheelSpinning = false;
+
 let currentRotation = 0;
+
 
 function spinWheel() {
 
@@ -531,27 +642,56 @@ function spinWheel() {
 
   wheelSpinning = true;
 
-  const wheel = document.getElementById("luckWheel");
-  const resultText = document.getElementById("wheelResult");
-  const audioResult = document.getElementById("audioResult");
-  const audio = document.getElementById("luckAudio");
-  const source = document.getElementById("luckAudioSource");
-  const audioText = document.getElementById("audioText");
-  const spinButton = document.getElementById("spinButton");
+  trackEvent("wheel_spin");
+
+  const wheel =
+    document.getElementById("luckWheel");
+
+  const resultText =
+    document.getElementById("wheelResult");
+
+  const audioResult =
+    document.getElementById("audioResult");
+
+  const audio =
+    document.getElementById("luckAudio");
+
+  const source =
+    document.getElementById("luckAudioSource");
+
+  const audioText =
+    document.getElementById("audioText");
+
+  const spinButton =
+    document.getElementById("spinButton");
+
 
   /* Stop previous audio */
+
   audio.pause();
+
   audio.currentTime = 0;
+
   audio.onended = null;
 
   audioResult.style.display = "none";
 
-  resultText.textContent = "waittt 👀";
+  resultText.textContent =
+    "waittt 👀";
 
   spinButton.disabled = true;
 
+
   /* RANDOM 0, 1 OR 2 */
-  const number = Math.floor(Math.random() * 3);
+
+  const number =
+    Math.floor(Math.random() * 3);
+
+
+  trackEvent("wheel_result", {
+    result: String(number)
+  });
+
 
   /*
     0 = BOTH
@@ -561,35 +701,48 @@ function spinWheel() {
 
   let targetAngle;
 
+
   if (number === 0) {
+
     targetAngle = 210;
+
   }
 
   else if (number === 1) {
+
     targetAngle = 90;
+
   }
 
   else {
+
     targetAngle = 330;
+
   }
+
 
   /*
     Always add full spins.
-    This makes every spin smooth,
-    even if the same number comes again.
+    This makes every spin smooth.
   */
 
-  const extraSpins = 7 * 360;
+  const extraSpins =
+    7 * 360;
 
-  const currentMod = currentRotation % 360;
+  const currentMod =
+    currentRotation % 360;
 
-  let difference = targetAngle - currentMod;
+  let difference =
+    targetAngle - currentMod;
 
   if (difference < 0) {
+
     difference += 360;
+
   }
 
-  currentRotation += extraSpins + difference;
+  currentRotation +=
+    extraSpins + difference;
 
   wheel.style.transform =
     "rotate(" + currentRotation + "deg)";
@@ -612,31 +765,38 @@ function spinWheel() {
       audioText.textContent =
         "0 both.. lekin awaz thora ajib h adjust 🙃";
 
-      source.src = "voice-note.mp3";
+      source.src =
+        "voice-note.mp3";
 
       audio.load();
 
-      audioResult.style.display = "block";
+      audioResult.style.display =
+        "block";
 
 
       /*
-        BOTH AUDIO WILL APPEAR
-        voice-note and birthday-2
+        BOTH AUDIO
       */
 
       audio.onended = function() {
 
-        source.src = "birthday-2.mp3";
+        source.src =
+          "birthday-2.mp3";
 
         audio.load();
 
-        const playPromise = audio.play();
+        const playPromise =
+          audio.play();
 
         if (playPromise !== undefined) {
+
           playPromise.catch(function() {
+
             audioText.textContent =
               "0 both.. lekin awaz thora ajib h adjust 🙃 — Play dabao for second audio 👀";
+
           });
+
         }
 
       };
@@ -653,13 +813,15 @@ function spinWheel() {
       audioText.textContent =
         "1 mil gaya 🎙️";
 
-      source.src = "voice-note.mp3";
+      source.src =
+        "voice-note.mp3";
 
       audio.onended = null;
 
       audio.load();
 
-      audioResult.style.display = "block";
+      audioResult.style.display =
+        "block";
 
     }
 
@@ -673,13 +835,15 @@ function spinWheel() {
       audioText.textContent =
         "2 mil gaya..achanak se awaz badhega or ajib bhi h ADJUST";
 
-      source.src = "birthday-2.mp3";
+      source.src =
+        "birthday-2.mp3";
 
       audio.onended = null;
 
       audio.load();
 
-      audioResult.style.display = "block";
+      audioResult.style.display =
+        "block";
 
     }
 
@@ -689,21 +853,94 @@ function spinWheel() {
     spinButton.disabled = false;
 
   }, 4500);
+
 }
 
 
+/* =========================
+   LUCK AUDIO TRACKING
+   ========================= */
+
+const luckAudio =
+  document.getElementById("luckAudio");
+
+
+luckAudio.addEventListener("play", function() {
+
+  const source =
+    document.getElementById("luckAudioSource").src;
+
+  if (source.includes("voice-note.mp3")) {
+
+    trackEvent("voice_note_audio_play");
+
+  }
+
+  else if (source.includes("birthday-2.mp3")) {
+
+    trackEvent("birthday_2_audio_play");
+
+  }
+
+});
+
+
+luckAudio.addEventListener("ended", function() {
+
+  const source =
+    document.getElementById("luckAudioSource").src;
+
+  if (source.includes("voice-note.mp3")) {
+
+    trackEvent("voice_note_audio_completed");
+
+  }
+
+  else if (source.includes("birthday-2.mp3")) {
+
+    trackEvent("birthday_2_audio_completed");
+
+  }
+
+});
+
+
+/* =========================
+   FINAL SCREEN
+   ========================= */
+
+function showFinal() {
+
+  trackEvent("final_reached");
+
+  showScreen("final");
+
+}
+
+
+/* =========================
+   CONFETTI
+   ========================= */
+
 function makeConfetti() {
 
-  const symbols = ["🤡", "💀", "🎊", "😑", "🤔", "🤫"];
+  const symbols =
+    ["🤡", "💀", "🎊", "😑", "🤔", "🤫"];
 
   for (let i = 0; i < 40; i++) {
 
-    const item = document.createElement("div");
+    const item =
+      document.createElement("div");
 
-    item.className = "confetti";
+    item.className =
+      "confetti";
 
     item.textContent =
-      symbols[Math.floor(Math.random() * symbols.length)];
+      symbols[
+        Math.floor(
+          Math.random() * symbols.length
+        )
+      ];
 
     item.style.left =
       Math.random() * 100 + "vw";
@@ -714,21 +951,32 @@ function makeConfetti() {
     document.body.appendChild(item);
 
     setTimeout(function() {
+
       item.remove();
+
     }, 5000);
+
   }
+
 }
 
+
+/* =========================
+   STARS
+   ========================= */
 
 function makeHearts() {
 
   for (let i = 0; i < 20; i++) {
 
-    const heart = document.createElement("div");
+    const heart =
+      document.createElement("div");
 
-    heart.className = "sitara";
+    heart.className =
+      "sitara";
 
-    heart.textContent = "🌟";
+    heart.textContent =
+      "🌟";
 
     heart.style.left =
       Math.random() * 100 + "vw";
@@ -739,18 +987,31 @@ function makeHearts() {
     document.body.appendChild(heart);
 
     setTimeout(function() {
+
       heart.remove();
+
     }, 5000);
+
   }
+
 }
 
 
+/* =========================
+   REPLAY
+   ========================= */
+
 function replaySurprise() {
 
-  const audio = document.getElementById("luckAudio");
+  trackEvent("replay_clicked");
+
+  const audio =
+    document.getElementById("luckAudio");
 
   audio.pause();
+
   audio.currentTime = 0;
+
 
   document.getElementById("password").value = "";
 
@@ -764,7 +1025,9 @@ function replaySurprise() {
 
   document.getElementById("audioResult").style.display = "none";
 
+
   showScreen("opening");
+
 }
 
 </script>
