@@ -15,7 +15,6 @@
   }
 
   gtag('js', new Date());
-
   gtag('config', 'G-E8CEPQ46EK');
 </script>
 
@@ -273,6 +272,17 @@ audio {
   margin-top: 10px;
 }
 
+
+/* PHOTO FOR RESULT 2 */
+
+.wheel-photo {
+  width: 100%;
+  max-width: 380px;
+  display: block;
+  margin: 15px auto;
+  border-radius: 16px;
+}
+
 </style>
 </head>
 
@@ -281,6 +291,7 @@ audio {
 <!-- OPENING -->
 <div class="screen active" id="opening">
   <div class="card">
+
     <div class="emoji">👓</div>
 
     <h1>Chasma ki jarurat h tujhe</h1>
@@ -301,6 +312,7 @@ audio {
     <button onclick="checkPassword()">
       Enter
     </button>
+
   </div>
 </div>
 
@@ -308,6 +320,7 @@ audio {
 <!-- SECOND SCREEN -->
 <div class="screen" id="second">
   <div class="card">
+
     <div class="emoji">👀</div>
 
     <h2>badhiya</h2>
@@ -330,6 +343,7 @@ audio {
     <button onclick="checkAge()">
       gud gud →
     </button>
+
   </div>
 </div>
 
@@ -367,26 +381,35 @@ audio {
     <p>
       hi..mr10/10
       <br><br>
+
       Kaise ho..12 se 21 ka safar kaisa tha..
       Kyunki usse phele dimag nhi tha..wo alg btt h abhi bhi nhi hai....
       kya kr rha h... overthinking...waah...same...aaj whatsapp kholne
       ka irada nhi tha na...koi na mera bhi sme reason tha...to kitna body bna...
       tiinka uth jata h na??
+
       <br><br>
+
       Yrr kishan to badhiya dikhta h...dressing sense sb badhiya....
       wo milta h humko kabhi kabhi...
+
       <br><br>
+
       Or kya wish manga...ya bss tap kar diya...chor ja padh..
       all the best...or hn important chiz to bhul he gye...
       Happy Birthday captain....
       hn too mr.chotee...sada khush raho...
       ayushman bhawaa balak..ek packet momos bhejwa dena bss....
       or kitna jldi bara hogya ..lekin mere se chota he h...
+
       <br><br>
+
       [ITNA PADHNE KA PATIENCE H?] Bss ab nhi h kuch....
       jaaaaaa....
       happy wala birthday 🙂
+
       <br><br>
+
       Chasma pehenna mat bhoolna. 👓😂
     </p>
 
@@ -436,6 +459,15 @@ audio {
 
       <p id="audioText"></p>
 
+      <!-- THIS PHOTO APPEARS ONLY FOR RESULT 2 -->
+      <img
+        id="birthday2Photo"
+        src="birthday-photo.jpg"
+        alt="Birthday photo"
+        class="wheel-photo"
+        style="display:none;"
+      >
+
       <audio id="luckAudio" controls>
         <source id="luckAudioSource" src="" type="audio/mpeg">
       </audio>
@@ -479,13 +511,21 @@ audio {
 <script>
 
 /* =========================
-   GOOGLE ANALYTICS HELPER
+   GOOGLE ANALYTICS
    ========================= */
 
 function trackEvent(eventName, parameters) {
+
   if (typeof gtag === "function") {
-    gtag("event", eventName, parameters || {});
+
+    gtag(
+      "event",
+      eventName,
+      parameters || {}
+    );
+
   }
+
 }
 
 
@@ -495,15 +535,22 @@ function trackEvent(eventName, parameters) {
 
 function showScreen(id) {
 
-  document.querySelectorAll(".screen").forEach(function(screen) {
-    screen.classList.remove("active");
-  });
+  document
+    .querySelectorAll(".screen")
+    .forEach(function(screen) {
 
-  document.getElementById(id).classList.add("active");
+      screen.classList.remove("active");
+
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
 
   trackEvent("screen_view_custom", {
     screen_name: id
   });
+
 }
 
 
@@ -519,6 +566,7 @@ function checkPassword() {
   const error =
     document.getElementById("error");
 
+
   if (password === "10/10") {
 
     error.textContent = "";
@@ -527,12 +575,15 @@ function checkPassword() {
 
     showScreen("second");
 
-  } else {
+  }
+
+  else {
 
     error.textContent =
       "kya jawan Banega re tu";
 
   }
+
 }
 
 
@@ -548,15 +599,19 @@ function checkAge() {
   const error =
     document.getElementById("ageError");
 
+
   if (age === "") {
 
     error.textContent =
       "Pehle age to batao";
 
     return;
+
   }
 
+
   error.textContent = "";
+
 
   if (age === "100") {
 
@@ -564,12 +619,15 @@ function checkAge() {
 
     showScreen("gift");
 
-  } else {
+  }
+
+  else {
 
     error.textContent =
       "Jhooth bol rahe ho kya?";
 
   }
+
 }
 
 
@@ -595,17 +653,29 @@ function openGift() {
 const birthdayAudio =
   document.getElementById("birthdayAudio");
 
-birthdayAudio.addEventListener("play", function() {
 
-  trackEvent("birthday_audio_play");
+birthdayAudio.addEventListener(
+  "play",
+  function() {
 
-});
+    trackEvent(
+      "birthday_audio_play"
+    );
 
-birthdayAudio.addEventListener("ended", function() {
+  }
+);
 
-  trackEvent("birthday_audio_completed");
 
-});
+birthdayAudio.addEventListener(
+  "ended",
+  function() {
+
+    trackEvent(
+      "birthday_audio_completed"
+    );
+
+  }
+);
 
 
 /* =========================
@@ -614,7 +684,9 @@ birthdayAudio.addEventListener("ended", function() {
 
 function celebrate() {
 
-  trackEvent("birthday_continue");
+  trackEvent(
+    "birthday_continue"
+  );
 
   showScreen("voice");
 
@@ -637,36 +709,62 @@ let currentRotation = 0;
 function spinWheel() {
 
   if (wheelSpinning) {
+
     return;
+
   }
+
 
   wheelSpinning = true;
 
-  trackEvent("wheel_spin");
+
+  trackEvent(
+    "wheel_spin"
+  );
+
 
   const wheel =
-    document.getElementById("luckWheel");
+    document.getElementById(
+      "luckWheel"
+    );
 
   const resultText =
-    document.getElementById("wheelResult");
+    document.getElementById(
+      "wheelResult"
+    );
 
   const audioResult =
-    document.getElementById("audioResult");
+    document.getElementById(
+      "audioResult"
+    );
 
   const audio =
-    document.getElementById("luckAudio");
+    document.getElementById(
+      "luckAudio"
+    );
 
   const source =
-    document.getElementById("luckAudioSource");
+    document.getElementById(
+      "luckAudioSource"
+    );
 
   const audioText =
-    document.getElementById("audioText");
+    document.getElementById(
+      "audioText"
+    );
 
   const spinButton =
-    document.getElementById("spinButton");
+    document.getElementById(
+      "spinButton"
+    );
+
+  const birthday2Photo =
+    document.getElementById(
+      "birthday2Photo"
+    );
 
 
-  /* Stop previous audio */
+  /* STOP PREVIOUS AUDIO */
 
   audio.pause();
 
@@ -674,23 +772,41 @@ function spinWheel() {
 
   audio.onended = null;
 
-  audioResult.style.display = "none";
+
+  /* HIDE AUDIO SECTION */
+
+  audioResult.style.display =
+    "none";
+
+
+  /* HIDE PHOTO */
+
+  birthday2Photo.style.display =
+    "none";
+
 
   resultText.textContent =
     "waittt 👀";
 
-  spinButton.disabled = true;
+
+  spinButton.disabled =
+    true;
 
 
   /* RANDOM 0, 1 OR 2 */
 
   const number =
-    Math.floor(Math.random() * 3);
+    Math.floor(
+      Math.random() * 3
+    );
 
 
-  trackEvent("wheel_result", {
-    result: String(number)
-  });
+  trackEvent(
+    "wheel_result",
+    {
+      result: String(number)
+    }
+  );
 
 
   /*
@@ -722,18 +838,20 @@ function spinWheel() {
 
 
   /*
-    Always add full spins.
-    This makes every spin smooth.
+    ALWAYS ADD FULL SPINS
   */
 
   const extraSpins =
     7 * 360;
 
+
   const currentMod =
     currentRotation % 360;
 
+
   let difference =
     targetAngle - currentMod;
+
 
   if (difference < 0) {
 
@@ -741,11 +859,15 @@ function spinWheel() {
 
   }
 
+
   currentRotation +=
     extraSpins + difference;
 
+
   wheel.style.transform =
-    "rotate(" + currentRotation + "deg)";
+    "rotate(" +
+    currentRotation +
+    "deg)";
 
 
   /* WAIT UNTIL WHEEL FINISHES */
@@ -753,7 +875,8 @@ function spinWheel() {
   setTimeout(function() {
 
     resultText.textContent =
-      "🎉 Tumhara number: " + number;
+      "🎉 Tumhara number: " +
+      number;
 
 
     /* =========================
@@ -765,41 +888,52 @@ function spinWheel() {
       audioText.textContent =
         "0 both.. lekin awaz thora ajib h adjust 🙃";
 
+
       source.src =
         "voice-note.mp3";
 
+
       audio.load();
+
 
       audioResult.style.display =
         "block";
 
 
       /*
-        BOTH AUDIO
+        AFTER VOICE NOTE,
+        PLAY BIRTHDAY-2
       */
 
-      audio.onended = function() {
+      audio.onended =
+        function() {
 
-        source.src =
-          "birthday-2.mp3";
+          source.src =
+            "birthday-2.mp3";
 
-        audio.load();
+          audio.load();
 
-        const playPromise =
-          audio.play();
 
-        if (playPromise !== undefined) {
+          const playPromise =
+            audio.play();
 
-          playPromise.catch(function() {
 
-            audioText.textContent =
-              "0 both.. lekin awaz thora ajib h adjust 🙃 — Play dabao for second audio 👀";
+          if (
+            playPromise !== undefined
+          ) {
 
-          });
+            playPromise.catch(
+              function() {
 
-        }
+                audioText.textContent =
+                  "0 both.. lekin awaz thora ajib h adjust 🙃 — Play dabao for second audio 👀";
 
-      };
+              }
+            );
+
+          }
+
+        };
 
     }
 
@@ -813,12 +947,16 @@ function spinWheel() {
       audioText.textContent =
         "1 mil gaya 🎙️";
 
+
       source.src =
         "voice-note.mp3";
 
+
       audio.onended = null;
 
+
       audio.load();
+
 
       audioResult.style.display =
         "block";
@@ -835,12 +973,28 @@ function spinWheel() {
       audioText.textContent =
         "2 mil gaya..achanak se awaz badhega or ajib bhi h ADJUST";
 
+
+      /*
+        EXACTLY birthday-2.mp3
+      */
+
       source.src =
         "birthday-2.mp3";
 
+
       audio.onended = null;
 
+
       audio.load();
+
+
+      /*
+        SHOW PHOTO ONLY FOR RESULT 2
+      */
+
+      birthday2Photo.style.display =
+        "block";
+
 
       audioResult.style.display =
         "block";
@@ -850,7 +1004,9 @@ function spinWheel() {
 
     wheelSpinning = false;
 
-    spinButton.disabled = false;
+    spinButton.disabled =
+      false;
+
 
   }, 4500);
 
@@ -862,47 +1018,85 @@ function spinWheel() {
    ========================= */
 
 const luckAudio =
-  document.getElementById("luckAudio");
+  document.getElementById(
+    "luckAudio"
+  );
 
 
-luckAudio.addEventListener("play", function() {
+luckAudio.addEventListener(
+  "play",
+  function() {
 
-  const source =
-    document.getElementById("luckAudioSource").src;
+    const source =
+      document.getElementById(
+        "luckAudioSource"
+      ).src;
 
-  if (source.includes("voice-note.mp3")) {
 
-    trackEvent("voice_note_audio_play");
+    if (
+      source.includes(
+        "voice-note.mp3"
+      )
+    ) {
+
+      trackEvent(
+        "voice_note_audio_play"
+      );
+
+    }
+
+    else if (
+      source.includes(
+        "birthday-2.mp3"
+      )
+    ) {
+
+      trackEvent(
+        "birthday_2_audio_play"
+      );
+
+    }
 
   }
+);
 
-  else if (source.includes("birthday-2.mp3")) {
 
-    trackEvent("birthday_2_audio_play");
+luckAudio.addEventListener(
+  "ended",
+  function() {
+
+    const source =
+      document.getElementById(
+        "luckAudioSource"
+      ).src;
+
+
+    if (
+      source.includes(
+        "voice-note.mp3"
+      )
+    ) {
+
+      trackEvent(
+        "voice_note_audio_completed"
+      );
+
+    }
+
+    else if (
+      source.includes(
+        "birthday-2.mp3"
+      )
+    ) {
+
+      trackEvent(
+        "birthday_2_audio_completed"
+      );
+
+    }
 
   }
-
-});
-
-
-luckAudio.addEventListener("ended", function() {
-
-  const source =
-    document.getElementById("luckAudioSource").src;
-
-  if (source.includes("voice-note.mp3")) {
-
-    trackEvent("voice_note_audio_completed");
-
-  }
-
-  else if (source.includes("birthday-2.mp3")) {
-
-    trackEvent("birthday_2_audio_completed");
-
-  }
-
-});
+);
 
 
 /* =========================
@@ -911,7 +1105,9 @@ luckAudio.addEventListener("ended", function() {
 
 function showFinal() {
 
-  trackEvent("final_reached");
+  trackEvent(
+    "final_reached"
+  );
 
   showScreen("final");
 
@@ -924,37 +1120,66 @@ function showFinal() {
 
 function makeConfetti() {
 
-  const symbols =
-    ["🤡", "💀", "🎊", "😑", "🤔", "🤫"];
+  const symbols = [
+    "🤡",
+    "💀",
+    "🎊",
+    "😑",
+    "🤔",
+    "🤫"
+  ];
 
-  for (let i = 0; i < 40; i++) {
+
+  for (
+    let i = 0;
+    i < 40;
+    i++
+  ) {
 
     const item =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
+
 
     item.className =
       "confetti";
 
+
     item.textContent =
       symbols[
         Math.floor(
-          Math.random() * symbols.length
+          Math.random() *
+          symbols.length
         )
       ];
 
+
     item.style.left =
-      Math.random() * 100 + "vw";
+      Math.random() *
+      100 +
+      "vw";
+
 
     item.style.animationDelay =
-      Math.random() * 2 + "s";
+      Math.random() *
+      2 +
+      "s";
 
-    document.body.appendChild(item);
 
-    setTimeout(function() {
+    document.body.appendChild(
+      item
+    );
 
-      item.remove();
 
-    }, 5000);
+    setTimeout(
+      function() {
+
+        item.remove();
+
+      },
+      5000
+    );
 
   }
 
@@ -967,30 +1192,51 @@ function makeConfetti() {
 
 function makeHearts() {
 
-  for (let i = 0; i < 20; i++) {
+  for (
+    let i = 0;
+    i < 20;
+    i++
+  ) {
 
     const heart =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
+
 
     heart.className =
       "sitara";
 
+
     heart.textContent =
       "🌟";
 
+
     heart.style.left =
-      Math.random() * 100 + "vw";
+      Math.random() *
+      100 +
+      "vw";
+
 
     heart.style.animationDelay =
-      Math.random() * 2 + "s";
+      Math.random() *
+      2 +
+      "s";
 
-    document.body.appendChild(heart);
 
-    setTimeout(function() {
+    document.body.appendChild(
+      heart
+    );
 
-      heart.remove();
 
-    }, 5000);
+    setTimeout(
+      function() {
+
+        heart.remove();
+
+      },
+      5000
+    );
 
   }
 
@@ -1003,30 +1249,62 @@ function makeHearts() {
 
 function replaySurprise() {
 
-  trackEvent("replay_clicked");
+  trackEvent(
+    "replay_clicked"
+  );
+
 
   const audio =
-    document.getElementById("luckAudio");
+    document.getElementById(
+      "luckAudio"
+    );
+
 
   audio.pause();
 
   audio.currentTime = 0;
 
 
-  document.getElementById("password").value = "";
-
-  document.getElementById("error").textContent = "";
-
-  document.getElementById("ageAnswer").value = "";
-
-  document.getElementById("ageError").textContent = "";
-
-  document.getElementById("wheelResult").textContent = "";
-
-  document.getElementById("audioResult").style.display = "none";
+  document.getElementById(
+    "password"
+  ).value = "";
 
 
-  showScreen("opening");
+  document.getElementById(
+    "error"
+  ).textContent = "";
+
+
+  document.getElementById(
+    "ageAnswer"
+  ).value = "";
+
+
+  document.getElementById(
+    "ageError"
+  ).textContent = "";
+
+
+  document.getElementById(
+    "wheelResult"
+  ).textContent = "";
+
+
+  document.getElementById(
+    "audioResult"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "birthday2Photo"
+  ).style.display =
+    "none";
+
+
+  showScreen(
+    "opening"
+  );
 
 }
 
