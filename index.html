@@ -125,6 +125,7 @@ button:active {
   0%, 100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-12px);
   }
@@ -284,7 +285,7 @@ audio {
     <div class="error" id="error"></div>
 
     <button onclick="checkPassword()">
-      Enter 
+      Enter
     </button>
   </div>
 </div>
@@ -364,7 +365,7 @@ audio {
       Or kya wish manga...ya bss tap kar diya...chor ja padh..
       all the best...or hn important chiz to bhul he gye...
       Happy Birthday captain....
-      hn too mr.chotee...sada khush raho... 
+      hn too mr.chotee...sada khush raho...
       ayushman bhawaa balak..ek packet momos bhejwa dena bss....
       or kitna jldi bara hogya ..lekin mere se chota he h...
       <br><br>
@@ -443,14 +444,13 @@ audio {
 
     <div class="emoji">😒</div>
 
-    <h2>
-      </h2>
+    <h2></h2>
 
     <p>
       bss itna he h
       or kya chaiye,
       cake bhejwa dena
-      PTA H THORA CODING WALA APP 
+      PTA H THORA CODING WALA APP
       CHALANA SIKH GYE🫠
     </p>
 
@@ -500,7 +500,7 @@ function checkAge() {
   if (age === "100") {
     showScreen("gift");
   } else {
-    error.textContent = "Jhooth bol rahe ho kya? ";
+    error.textContent = "Jhooth bol rahe ho kya?";
   }
 }
 
@@ -610,7 +610,7 @@ function spinWheel() {
     if (number === 0) {
 
       audioText.textContent =
-  "0 both.. lekin awaz thora ajib h adjust 🙃";
+        "0 both.. lekin awaz thora ajib h adjust 🙃";
 
       source.src = "voice-note.mp3";
 
@@ -620,7 +620,7 @@ function spinWheel() {
 
 
       /*
-        BOTH AUDIO WILL APPEAR 
+        BOTH AUDIO WILL APPEAR
         voice-note and birthday-2
       */
 
@@ -635,8 +635,7 @@ function spinWheel() {
         if (playPromise !== undefined) {
           playPromise.catch(function() {
             audioText.textContent =
-              "0 both.. lekin awaz thora ajib h
-adjust 🙃"; — Play dabao for second audio 👀"
+              "0 both.. lekin awaz thora ajib h adjust 🙃 — Play dabao for second audio 👀";
           });
         }
 
@@ -694,17 +693,23 @@ adjust 🙃"; — Play dabao for second audio 👀"
 
 
 function makeConfetti() {
+
   const symbols = ["🤡", "💀", "🎊", "😑", "🤔", "🤫"];
 
   for (let i = 0; i < 40; i++) {
+
     const item = document.createElement("div");
 
     item.className = "confetti";
+
     item.textContent =
       symbols[Math.floor(Math.random() * symbols.length)];
 
-    item.style.left = Math.random() * 100 + "vw";
-    item.style.animationDelay = Math.random() * 2 + "s";
+    item.style.left =
+      Math.random() * 100 + "vw";
+
+    item.style.animationDelay =
+      Math.random() * 2 + "s";
 
     document.body.appendChild(item);
 
@@ -716,14 +721,20 @@ function makeConfetti() {
 
 
 function makeHearts() {
+
   for (let i = 0; i < 20; i++) {
+
     const heart = document.createElement("div");
 
     heart.className = "sitara";
+
     heart.textContent = "🌟";
 
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDelay = Math.random() * 2 + "s";
+    heart.style.left =
+      Math.random() * 100 + "vw";
+
+    heart.style.animationDelay =
+      Math.random() * 2 + "s";
 
     document.body.appendChild(heart);
 
@@ -742,9 +753,11 @@ function replaySurprise() {
   audio.currentTime = 0;
 
   document.getElementById("password").value = "";
+
   document.getElementById("error").textContent = "";
 
   document.getElementById("ageAnswer").value = "";
+
   document.getElementById("ageError").textContent = "";
 
   document.getElementById("wheelResult").textContent = "";
